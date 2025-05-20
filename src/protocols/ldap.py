@@ -3,10 +3,14 @@ import ssl
 from ldap3.core.exceptions import LDAPBindError
 from rich.console import Console
 
+from handlers.profile import get_host, get_username, get_password, get_domain
+
 console = Console()
 
-def get_ldap_connection(host: str, username: str, password: str, domain: str):
+def get_ldap_connection():
     """ LDAP Connection Handler: tries signing on 389, then LDAPS on 636. """
+
+    host, username, password, domain = get_host(), get_username(), get_password(), get_domain()
 
     user = f"{domain}\\{username}"
 
@@ -41,7 +45,7 @@ def get_ldap_connection(host: str, username: str, password: str, domain: str):
         console.print(f"[[green]+[/]] [cyan]LDAP[/]   {domain}\\{username}:{password}", highlight=False)
         console.print("[[green]+[/]] [cyan]LDAP[/]   bind successful with signing", highlight=False)
 
-        return ldap_server, ldap_connection
+        return ldap_connection, base_dn
 
     except LDAPBindError as e:
         if "strongerAuthRequired" not in str(e):
@@ -57,6 +61,7 @@ def get_ldap_connection(host: str, username: str, password: str, domain: str):
             auto_bind=True,
             raise_exceptions=True
         )
+
         signing = "[green]Yes[/]" if ldaps_connection.session_security in ("SIGNATURE", "ENCRYPT") else "[red]No[/]"
         encrypted = "[green]Yes[/]" if ldaps_connection.server.ssl else "[red]No[/]"
         base_dn = ldaps_connection.server.info.other.get("defaultNamingContext", ["<none>"])[0]
@@ -65,7 +70,7 @@ def get_ldap_connection(host: str, username: str, password: str, domain: str):
         console.print(f"[[green]+[/]] [cyan]LDAPS[/]   {domain}\\{username}:{password}", highlight=False)
         console.print("[[green]+[/]] [cyan]LDAPS[/]    bind successful", highlight=False)
 
-        return ldaps_server, ldaps_connection
+        return ldap_connection, base_dn
 
     except LDAPBindError as e:
         console.print(f"[red]x[/] LDAPS bind failed: {e}", highlight=False)

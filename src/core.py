@@ -1,3 +1,5 @@
+import importlib
+
 from rich.console import Console
 console = Console()
 from argparse import ArgumentParser
@@ -5,7 +7,6 @@ from sys import argv
 from os import environ
 
 from handlers.environment import ensure_base_dir, create_profile, delete_profile, list_profiles, change_host
-from handlers.profile import get_username, get_password, get_domain, get_host
 from protocols.smb import get_smb_connection
 from protocols.ldap import get_ldap_connection
 
@@ -67,6 +68,7 @@ def setup() -> None:
         action="store_true"
     )
 
+    # Let the user change the host value from the profile
     parser.add_argument(
         "--change-host",
         metavar=('PROFILE_NAME', 'NEW_HOST'),
@@ -75,10 +77,17 @@ def setup() -> None:
         default=[]
     )
 
+    # Save the output of the command
+    parser.add_argument(
+        "--output",
+        help="Usage: hexodus --output",
+        action="store_true"
+    )
+
     args = parser.parse_args()
 
-    # Setup the base directory (.hexodus) in user home
     ensure_base_dir()
+    save_output = args.output
     
     if args.create_profile:
         create_profile(*args.create_profile)
@@ -96,10 +105,22 @@ def setup() -> None:
         environ['hexodus_profile'] = args.profile
 
         if args.protocol == "smb":
-            get_smb_connection(get_host(), get_username(), get_password(), get_domain())
+            get_smb_connection()
+
+            # if args.module is True:
+            #     m = importlib.import_module(f"modules.smb.{args.module}")
+            #     cls = getattr(m, args.module.capitalize())
+            #     instance = cls()
+            #     instance.on_login(conn, base_dn)
 
         if args.protocol == "ldap":
-            get_ldap_connection(get_host(), get_username(), get_password(), get_domain())
+            conn, base_dn = get_ldap_connection()
+
+            if args.module:
+                m = importlib.import_module(f"modules.ldap.{args.module}")
+                cls = getattr(m, args.module.capitalize())
+                instance = cls()
+                instance.on_login(conn, base_dn, save_output)
 
     # Setup the MySQL database
 

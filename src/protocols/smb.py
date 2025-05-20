@@ -1,10 +1,13 @@
 from impacket.smbconnection import SMBConnection, SessionError
-
 from rich.console import Console
 console = Console()
 
-def get_smb_connection(host: str, username: str, password: str, domain: str) -> None:
+from handlers.profile import get_host, get_username, get_password, get_domain
+
+def get_smb_connection() -> None:
     """ SMB Connection Handler """
+
+    host, username, password, domain = get_host(), get_username(), get_password(), get_domain()
 
     try:
         smb_connection = SMBConnection(host, host)
