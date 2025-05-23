@@ -5,20 +5,6 @@ console = Console()
 
 from handlers.environment import user_home
 
-def get_host() -> str:
-    """ Read the 'host' property from the current profile file """
-
-    profile = environ.get('hexodus_profile')
-    profile_path: str = f"{user_home()}/.hexodus/{profile}/profile.json"
-
-    try:
-        with open(profile_path, 'r', encoding='utf-8') as json_file:
-            data = load(json_file)
-            return data['host']
-
-    except Exception as error:
-        console.print(f"[[red]x[/]] Error when running get_host function in profile.py: {error}")
-
 def get_username() -> str:
     """ Read the 'username' property from the current profile file """
 
