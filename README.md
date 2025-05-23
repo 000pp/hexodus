@@ -45,6 +45,13 @@ pipx reinstall hexodus
 
 <br>
 
+## Usage
+![image](https://github.com/user-attachments/assets/8120f17c-3d78-46ae-b783-37cdcc4cb78e)
+
+![image](https://github.com/user-attachments/assets/9f04bcbe-179d-4742-8103-806071d08f90)
+
+<br>
+
 ## Credits
 - [NetExec](https://github.com/Pennyw0rth/NetExec)
 - [Impacket](https://github.com/fortra/impacket)
