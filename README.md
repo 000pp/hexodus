@@ -11,7 +11,7 @@
 <br>
 
 ## Documentation
-In the [documentation](https://github.com/000pp/hexodus/wiki), you can find orientations of how to use commands and they required arguments if they have, known errors by the community or the developer(s) and a possible solution for the problem
+In the [documentation](https://github.com/000pp/hexodus/wiki) you can find orientations of how to use Hexodus commands, known errors by the community or the developer(s) and a possible solution for the problem.
 
 <br>
 

@@ -72,7 +72,7 @@ def setup() -> None:
 
     # List profiles
     parser.add_argument(
-        "--list-profiles", "-li",
+        "--list-profiles", "-lp",
         help="Usage: hexodus --list-profiles",
         action="store_true"
     )
