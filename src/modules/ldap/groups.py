@@ -2,11 +2,11 @@ from rich.console import Console
 console = Console()
 from uuid import uuid4
 
-class Computers:
-    name = "computers"
-    desc = "Return all the computers that can be located"
-    search_filter = ("(&(objectClass=computer)(!(userAccountControl:1.2.840.113556.1.4.803:=2)))")
-    attributes = "dNSHostName"
+class Groups:
+    name = "groups"
+    desc = "Get 'sAMAccountName' from all groups"
+    search_filter = "(|(|(|(objectClass=posixGroup)(objectClass=groupOfUniqueNames))(objectClass=groupOfNames))(objectClass=group))"
+    attributes = "sAMAccountName"
 
     def on_login(self, conn, base_dn, save_output: bool = False):
 

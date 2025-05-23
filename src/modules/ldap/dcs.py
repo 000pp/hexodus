@@ -2,11 +2,11 @@ from rich.console import Console
 console = Console()
 from uuid import uuid4
 
-class Computers:
-    name = "computers"
-    desc = "Return all the computers that can be located"
-    search_filter = ("(&(objectClass=computer)(!(userAccountControl:1.2.840.113556.1.4.803:=2)))")
-    attributes = "dNSHostName"
+class Dcs:
+    name = "dcs"
+    desc = "Get 'dNSHostName' attribute value from all Domain Controllers"
+    search_filter = "(&(objectCategory=Computer)(userAccountControl:1.2.840.113556.1.4.803:=8192))"
+    attributes = "dnsHostname"
 
     def on_login(self, conn, base_dn, save_output: bool = False):
 

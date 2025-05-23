@@ -2,11 +2,11 @@ from rich.console import Console
 console = Console()
 from uuid import uuid4
 
-class Computers:
-    name = "computers"
-    desc = "Return all the computers that can be located"
-    search_filter = ("(&(objectClass=computer)(!(userAccountControl:1.2.840.113556.1.4.803:=2)))")
-    attributes = "dNSHostName"
+class Cpnl:
+    name = "cpnl"
+    desc = "Find all Users that need to change password on next login"
+    search_filter = "(&(objectCategory=user)(pwdLastSet=0))"
+    attributes = "sAMAccountName"
 
     def on_login(self, conn, base_dn, save_output: bool = False):
 

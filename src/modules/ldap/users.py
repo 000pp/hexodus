@@ -5,20 +5,20 @@ from uuid import uuid4
 class Users:
     name = "users"
     desc = "Get 'sAMAccountName' attribute value from Users Accounts"
-    module_protocol = ["ldap"]
-    opsec_safe = True
-    multiple_hosts = False
     search_filter = "(&(objectCategory=person)(objectClass=user))"
     attributes = "sAMAccountName"
 
     def on_login(self, conn, base_dn, save_output: bool = False):
+
+        console.print(f"[[green]+[/]] [cyan]MODULE[/]  Running [yellow]{self.name}[/] module")
+
         results = conn.search(base_dn, self.search_filter, attributes=self.attributes)
 
         if not results:
             console.print("[[red]![/]] No entries found in the results.") 
             return
         
-        console.print(f"[[green]+[/]] [cyan]QUERY[/]  {self.search_filter}", highlight=False)
+        console.print(f"[[green]+[/]] [cyan]QUERY[/]   [black]{self.search_filter}[/]\n", highlight=False)
 
         values = [entry[self.attributes].value for entry in conn.entries]
         for value in values:

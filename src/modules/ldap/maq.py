@@ -2,15 +2,15 @@ from rich.console import Console
 console = Console()
 from uuid import uuid4
 
-class Computers:
-    name = "computers"
-    desc = "Return all the computers that can be located"
-    search_filter = ("(&(objectClass=computer)(!(userAccountControl:1.2.840.113556.1.4.803:=2)))")
-    attributes = "dNSHostName"
+class Maq:
+    name = "maq"
+    desc = "Get ms-DS-MachineAccountQuota value"
+    search_filter = ("(objectClass=domainDNS)")
+    attributes = "ms-DS-MachineAccountQuota"
 
     def on_login(self, conn, base_dn, save_output: bool = False):
 
-        console.print(f"[[green]+[/]] [cyan]MODULE[/]  Running [yellow]{self.name}[/] module")
+        console.print(f"[[green]+[/]] [cyan]MODULE[/] Running [yellow]{self.name}[/] module")
 
         results = conn.search(base_dn, self.search_filter, attributes=self.attributes)
 
