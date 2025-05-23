@@ -50,6 +50,8 @@ pipx reinstall hexodus
 
 ![image](https://github.com/user-attachments/assets/9f04bcbe-179d-4742-8103-806071d08f90)
 
+![image](https://github.com/user-attachments/assets/98d6d1ba-0e4c-402c-b320-c228aa3a839a)
+
 <br>
 
 ## Credits
