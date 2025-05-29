@@ -33,7 +33,7 @@ class Share:
 
             share_info: str = f"{share_name} - {share_remark} - {share_path}"
             
-            console.print(f"[yellow] * {share_info} [/]", highlight=False)
+            console.print(f" * {share_info} ", highlight=False)
 
             output.append(share_info)
 
