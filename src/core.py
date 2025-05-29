@@ -1,13 +1,15 @@
 from importlib import resources, import_module
 from rich.console import Console
 console = Console()
-from argparse import ArgumentParser
-from sys import argv
-from os import environ
+from argparse import ArgumentParser, REMAINDER
+from os import environ, path
 
-from handlers.environment import ensure_base_dir, create_profile, delete_profile, list_profiles
+from handlers.environment import *
 from protocols.smb import get_smb_connection
 from protocols.ldap import get_ldap_connection
+from webapp import start_flask, stop_flask
+
+from sys import argv
 
 def setup() -> None:
     """
@@ -15,7 +17,7 @@ def setup() -> None:
     """
 
     parser = ArgumentParser(
-        description="To list modules from a protocol use: hexodus <profile> <protocol> <host> list"
+        description="To list modules from a protocol use: hexodus <profile> <protocol> list"
     )
 
     if len(argv) == 1:
@@ -54,6 +56,13 @@ def setup() -> None:
         default=None
     )
 
+    parser.add_argument(
+        "module_args",
+        help="Arguments specific to the chosen module",
+        nargs=REMAINDER, 
+        default=None
+    )
+
     # Create profile
     parser.add_argument(
         "--create-profile", "-c",
@@ -79,9 +88,31 @@ def setup() -> None:
 
     # Save the output of the command
     parser.add_argument(
-        "--output",
-        help="Usage: hexodus --output",
+        "--output", "-o",
+        help="Usage: hexodus <profile> <protocol> <host> <module> --output",
         action="store_true"
+    )
+
+    # Generate a web view of the collected data
+    parser.add_argument(
+        "--start-web", "-s",
+        help="Usage: hexodus --start-web",
+        action="store_true"
+    )
+
+    # Stop the Flask web app
+    parser.add_argument(
+        "--stop-web", "-sw",
+        help="Usage: hexodus --stop-web",
+        action="store_true"
+    )
+
+    # Delete the profile column from the data.db file
+    parser.add_argument(
+        "--delete-profile-column", "-x",
+        metavar="PROFILE_NAME",
+        help="Usage: hexodus --delete-profile-column <profile-name>",
+        type=str,
     )
 
     args = parser.parse_args()
@@ -97,14 +128,34 @@ def setup() -> None:
 
     if args.list_profiles:
         list_profiles()
+        return
+    
+    if args.start_web:
+        start_flask()
+        return
+
+    if args.stop_web:
+        stop_flask()
+        return
+    
+    if args.delete_profile_column:
+        drop_profile_column(args.delete_profile_column)
+        return
 
     if args.profile:
+        # Check if profile exists before loading it
+        profile_path: str = f"{user_home()}/.hexodus/{args.profile}"
+        if not path.exists(profile_path):
+            console.print(f"[[red]x[/]] {args.profile} does not exists.", highlight=False)
+            return
+        
         environ['hexodus_profile'] = args.profile
+        init_database()
+        ensure_profile_column(args.profile)
 
         if args.profile and args.protocol is None:
             console.print(f"[[green]+[/]] Loaded profile: {environ['hexodus_profile']}")
             return
-
 
         if args.protocol == "smb":
 
@@ -129,9 +180,14 @@ def setup() -> None:
                     module = import_module(f"modules.smb.{args.module}")
                     cls = getattr(module, args.module.capitalize())
                     instance = cls()
-                    instance.on_login(args.host, save_output)
+                    values = instance.on_login(args.host, save_output, args.module_args)
+
+                    if values:
+                        text = "\n".join(values)
+                        save_module_output(args.profile, args.module, text)
+
                 except ModuleNotFoundError:
-                    console.print(f"[ERROR] Module '{args.module}' not found.")
+                    console.print(f"\n[ERROR] Module '{args.module}' not found.")
 
 
         if args.protocol == "ldap":
@@ -157,10 +213,11 @@ def setup() -> None:
                     module = import_module(f"modules.ldap.{args.module}")
                     cls = getattr(module, args.module.capitalize())
                     instance = cls()
-                    instance.on_login(conn, base_dn, save_output)
+                    values = instance.on_login(conn, base_dn, save_output, args.module_args)
+
+                    if values:
+                        text = "\n".join(values)
+                        save_module_output(args.profile, args.module, text,)
+
                 except ModuleNotFoundError:
-                    console.print(f"[ERROR] Module '{args.module}' not found.")
-
-    # Setup the MySQL database
-
-    # Setup the Django web server
+                    console.print(f"\n[ERROR] Module '{args.module}' not found.")

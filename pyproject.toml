@@ -13,7 +13,7 @@ classifiers = [
     'Topic :: Security',
 ]
 
-dependencies = ["ldap3 @ git+https://github.com/cannatag/ldap3.git@dev", 'rich>=13.5.3', 'impacket>=0.11.0']
+dependencies = ["ldap3 @ git+https://github.com/cannatag/ldap3.git@dev", 'rich>=13.5.3', 'impacket>=0.11.0', 'flask>=3.0.3']
 
 license = { file = "LICENSE" }
 

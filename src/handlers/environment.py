@@ -1,10 +1,80 @@
 from rich.console import Console
 console = Console()
 from uuid import uuid4
-from os import makedirs, path
+from os import makedirs, path, environ
 from shutil import rmtree
 from pathlib import Path
 from json import dump
+
+import sqlite3
+
+def init_database() -> None:
+    """ """
+    
+    database = path.join(user_home(), ".hexodus", "data.db")
+    sqlite_cursor = sqlite3.connect(database)
+    sqlite_cursor.execute("""
+      CREATE TABLE IF NOT EXISTS data (
+        module TEXT PRIMARY KEY
+      );
+    """)
+    sqlite_cursor.commit()
+    sqlite_cursor.close()
+
+
+def ensure_profile_column(profile: str) -> None:
+    """ """
+    
+    database = path.join(user_home(), ".hexodus", "data.db")
+    database_connection = sqlite3.connect(database)
+    sqlite_cursor = database_connection.cursor()
+
+    sqlite_cursor.execute("PRAGMA table_info(data);")
+    existing = {row[1] for row in sqlite_cursor.fetchall()}
+
+    if "module" not in existing:
+        sqlite_cursor.execute("ALTER TABLE data ADD COLUMN module TEXT;")
+        sqlite_cursor.execute("CREATE UNIQUE INDEX IF NOT EXISTS idx_data_module ON data(module);")
+
+    if profile not in existing:
+        sqlite_cursor.execute(f"ALTER TABLE data ADD COLUMN '{profile}' TEXT;")
+
+    database_connection.commit()
+    database_connection.close()
+
+
+def save_module_output(profile: str, module: str, output: str) -> None:
+    """ Save the collected data to the database to be used by the webapp """
+
+    database = f"{user_home()}/.hexodus/data.db"
+    database_connection = sqlite3.connect(database)
+    sqlite_cursor = database_connection.cursor()
+
+    sqlite_cursor.execute("""
+      INSERT INTO data(module) VALUES(?)
+      ON CONFLICT(module) DO NOTHING
+    """, (module,))
+
+    sqlite_cursor.execute(f"""
+      UPDATE data
+      SET "{profile}" = ?
+      WHERE module = ?
+    """, (output, module))
+
+    database_connection.commit()
+    database_connection.close()
+
+
+def drop_profile_column(profile_name: str) -> None:
+    """ Remove the specified profile data from the database """
+
+    database = f"{user_home()}/.hexodus/data.db"
+    database_connection = sqlite3.connect(database)
+    sqlite_cursor = database_connection.cursor()
+
+    sqlite_cursor.execute(f'ALTER TABLE data DROP COLUMN "{profile_name}"')
+    database_connection.commit()
+    database_connection.close()
 
 
 def environment_json(profile_name: str, profile_domain: str, profile_username: str, profile_password: str) -> None:
@@ -55,6 +125,9 @@ def delete_profile(profile_name: str) -> None:
         return False
     
     rmtree(profile_path)
+
+    drop_profile_column(profile_name)
+
     console.print(f"[[green]![/]] {profile_path} deleted.", highlight=False)
     
 
@@ -83,3 +156,6 @@ def ensure_base_dir() -> None:
     base_path = f"{user_home()}/.hexodus"
     if not path.exists(base_path):
         makedirs(base_path)
+
+    if not path.exists(f"{base_path}/data.db"):
+        init_database()

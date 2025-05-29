@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Hexodus View</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+
+  <style>
+
+    html {
+      background: #f1f1f1;
+    }
+
+    .title {
+      color: #8529fd;
+    }
+
+    .tabs.is-toggle li.is-active a {
+      background-color: #8529fd !important;
+      color: #fff !important;
+      width: 10rem;
+      cursor: pointer;
+    }
+
+    .message-header {
+      background-color: #8529fd !important;
+    }
+
+    #header {
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+
+  </style>
+
+</head>
+<body>
+  <section class="section">
+    <div class="container">
+
+      <div id="header">
+        <h1 class="title is-1">HEXODUS</h1>
+      </div>
+
+    <div class="tabs is-toggle is-centered is-medium is-boxed">
+      <ul>
+        {% for profile in profiles %}
+          <li{% if loop.first %} class="is-active"{% endif %}>
+            <a><strong>{{ profile }}</strong></a>
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+
+    {% for prof in profiles %}
+      <div class="box">
+        <h2 class="subtitle">{{ prof }}</h2>
+        {% for m in modules %}
+          {% if m[prof] %}
+            <article class="message">
+              <div class="message-header">
+                <p>{{ m['module'].capitalize() }}</p>
+              </div>
+              <div class="message-body">
+                <pre>{{ m[prof] }}</pre>
+              </div>
+            </article>
+          {% endif %}
+        {% endfor %}
+      </div>
+    {% endfor %}
+    </div>
+  </section>
+
+  <script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const tabs    = document.querySelectorAll('.tabs ul li');
+    const panels  = document.querySelectorAll('.box');
+
+    tabs.forEach((tab, i) => {
+      tab.addEventListener('click', () => {
+      
+        tabs.forEach(t => t.classList.remove('is-active'));
+        panels.forEach(p => p.style.display = 'none');
+
+        tab.classList.add('is-active');
+        panels[i].style.display = '';
+      });
+    });
+
+    panels.forEach((p, i) => {
+      p.style.display = (i === 0 ? '' : 'none');
+    });
+  });
+  </script>
+
+</body>
+</html>
