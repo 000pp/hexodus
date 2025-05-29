@@ -2,11 +2,11 @@ from rich.console import Console
 console = Console()
 from uuid import uuid4
 
-class Computers:
-    name = "computers"
-    desc = "Return all the computers that can be located"
-    search_filter = ("(&(objectClass=computer)(!(userAccountControl:1.2.840.113556.1.4.803:=2)))")
-    attributes = "dNSHostName"
+class Passnotreq:
+    name = "passnotreq"
+    desc = "List all accounts that does not need an password to authenticate"
+    search_filter = "(&(objectCategory=person)(objectClass=user)(userAccountControl:1.2.840.113556.1.4.803:=32))"
+    attributes = "sAMAccountName"
 
     def on_login(self, conn, base_dn, save_output = False, module_args = None):
         console.print(f"[[green]+[/]] [cyan]MODULE[/]  Running [yellow]{self.name}[/] module")

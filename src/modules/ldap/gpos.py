@@ -2,11 +2,11 @@ from rich.console import Console
 console = Console()
 from uuid import uuid4
 
-class Computers:
-    name = "computers"
-    desc = "Return all the computers that can be located"
-    search_filter = ("(&(objectClass=computer)(!(userAccountControl:1.2.840.113556.1.4.803:=2)))")
-    attributes = "dNSHostName"
+class Gpos:
+    name = "gpos"
+    desc = "List the GPOs registed in the domain"
+    search_filter = "(objectClass=groupPolicyContainer)"
+    attributes = ["displayName", "gPCFileSysPath"]
 
     def on_login(self, conn, base_dn, save_output = False, module_args = None):
         console.print(f"[[green]+[/]] [cyan]MODULE[/]  Running [yellow]{self.name}[/] module")
@@ -20,9 +20,16 @@ class Computers:
         
         console.print(f"[[green]+[/]] [cyan]QUERY[/]   [black]{self.search_filter}[/]\n", highlight=False)
 
-        values = [entry[self.attributes].value for entry in conn.entries]
-        for value in values:
-            console.print(value, highlight=False)
+        values = []
+        values = []
+        for entry in conn.entries:
+            displayName = entry.displayName.value or "None"
+            gPCFileSysPath = entry.gPCFileSysPath.value or "None"
+
+            result = f"{displayName} - {gPCFileSysPath}"
+            values.append(result)
+
+            console.print(result, highlight=False)
 
         if save_output:
             filename = f"{self.name}_{uuid4().hex}.txt"
