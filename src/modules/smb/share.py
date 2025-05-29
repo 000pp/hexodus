@@ -9,7 +9,7 @@ class Share:
     name = "share"
     desc = "Enumerates the available shares of a target computer"
 
-    def on_login(self, host, save_output = False):
+    def on_login(self, host, save_output = False, module_args = None):
 
         console.print(f"[[green]+[/]] [cyan]MODULE[/]  Running [yellow]{self.name}[/] module")
 
@@ -43,3 +43,5 @@ class Share:
                 for value in output:
                     file.write(value + "\n")
             console.print(f"\n[[green]+[/]] Output saved to {filename}", highlight=False)
+
+        return output
