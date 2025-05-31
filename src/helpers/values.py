@@ -1,3 +1,5 @@
+from struct import unpack_from
+
 def fmt_multi(input):
     """ Format values that can be str, list or None and returns an formatted string """
 
@@ -27,3 +29,16 @@ def fmt_uac(value):
     for uac_value, description in uac_values.items():
         if int(uac_value) == value:
             return description
+        
+def fmt_sid(sid):
+    """ Convert the SID binary to a readable string """
+
+    revision, sub_authority_count = unpack_from("BB", sid, 0)
+    identifier_authority = unpack_from(">Q", b"\x00\x00" + sid[2:8])[0]
+    sub_authorities = unpack_from(f"<{sub_authority_count}I", sid, 8)
+
+    sid_string = f"S-{revision}-{identifier_authority}"
+    for sub_authority in sub_authorities:
+        sid_string += f"-{sub_authority}"
+
+    return sid_string
