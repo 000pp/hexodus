@@ -2,17 +2,61 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>Hexodus View</title>
+  <title>Hexodus Webview</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
 
   <style>
 
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
+    * {
+      font-family: 'Poppins', sans-serif;
+      scrollbar-width: auto;
+      scrollbar-color: #8529fd #252333;
+      --sb-track-color: #252333;
+      --sb-thumb-color: #8529fd;
+      --sb-size: 14px;
+    }
+
     html {
-      background: #f1f1f1;
+      background: #252333;
+      background: -webkit-linear-gradient(137deg,#252333 0%, rgba(0, 0, 0, 1) 100%);
+      background: -moz-linear-gradient(137deg,#252333 0%, rgba(0, 0, 0, 1) 100%);
+      background: linear-gradient(137deg,#252333 0%, rgba(0, 0, 0, 1) 100%);
+      filter: progid:DXImageTransform.Microsoft.gradient(
+        startColorstr="#0F0F0F",
+        endColorstr="#000000",
+        GradientType=0
+      );
+    }
+
+    scrollbar
+
+    body::-webkit-scrollbar {
+      width: var(--sb-size)
+    }
+
+    body::-webkit-scrollbar-track {
+      background: var(--sb-track-color);
+      border-radius: 3px;
+    }
+
+    body::-webkit-scrollbar-thumb {
+      background: var(--sb-thumb-color);
+      border-radius: 3px;
+      
+    }
+
+    @supports not selector(::-webkit-scrollbar) {
+      body {
+        scrollbar-color: var(--sb-thumb-color)
+                        var(--sb-track-color);
+      }
     }
 
     .title {
-      color: #8529fd;
+      font-size: 4rem !important;
+      color: #ffffff;
     }
 
     .tabs.is-toggle li.is-active a {
@@ -20,6 +64,21 @@
       color: #fff !important;
       width: 10rem;
       cursor: pointer;
+    }
+
+    .box {
+      background-color: #0f0f0f;
+      color: #ffffff;
+      border: 1px solid #8529fd;
+      box-shadow: -1px 15px 38px 5px rgba(84,41,145,0.63);
+      -webkit-box-shadow: -1px 15px 38px 5px rgba(84,41,145,0.63);
+      -moz-box-shadow: -1px 15px 38px 5px rgba(84,41,145,0.63);
+    }
+
+    .message-body {
+      background: #171717;
+      color: #ffffff;
+      border-radius: 0px;
     }
 
     .message-header {
@@ -31,16 +90,23 @@
       margin-bottom: 1rem;
     }
 
+    pre {
+      color: #ffffff;
+      background: #0f0f0f !important;
+    }
+
+    .text-footer {
+      text-align: center;
+      margin-top: 3rem;
+      color: #a4a4a4;
+    }
+
   </style>
 
 </head>
 <body>
   <section class="section">
     <div class="container">
-
-      <div id="header">
-        <h1 class="title is-1">HEXODUS</h1>
-      </div>
 
     <div class="tabs is-toggle is-centered is-medium is-boxed">
       <ul>
@@ -54,7 +120,6 @@
 
     {% for prof in profiles %}
       <div class="box">
-        <h2 class="subtitle">{{ prof }}</h2>
         {% for m in modules %}
           {% if m[prof] %}
             <article class="message">
@@ -70,6 +135,9 @@
       </div>
     {% endfor %}
     </div>
+
+    <p class="text-footer">Hexodus - 2025 - 000pp</p>
+
   </section>
 
   <script>
