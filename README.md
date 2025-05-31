@@ -6,7 +6,7 @@
 
 <hr/>
 
-🟪 Hexodus is a Python framework project designed to enumerate and help in Active Directory attacks through Windows protocols like SMB, LDAP, RPC and other. It uses SQLite database to store the data and Flask to generate a web-view of the data collected, making easier to analyze the environment.
+Hexodus is a Python framework designed to enumerate Active Directory objects and assist with attacks using Windows protocols such as SMB, LDAP, RPC, and others. It uses an SQLite database to store collected data and a Flask-based web interface to make it easier to analyze the environment.
 
 <br>
 
