@@ -11,12 +11,12 @@ Hexodus is a Python framework designed to enumerate Active Directory objects and
 <br>
 
 ## Documentation
-In the [documentation](https://github.com/000pp/hexodus/wiki) you can find orientations of how to use Hexodus commands, known errors by the community or the developer(s) and a possible solution for the problem.
+In the [documentation](https://github.com/000pp/hexodus/wiki), you can find guidance on how to use Hexodus commands, information on known errors reported by the community or by the developers, and possible solutions to those issues.
 
 <br>
 
 ## Installation
-It's suggested to use [pipx](https://github.com/pypa/pipx) to install the project locally, so you can run it from everywhere and make the things easier.
+We recommend using [pipx](https://github.com/pypa/pipx) to install the project, so you can run it from anywhere and make things easier.
 
 ### Linux
 ```
