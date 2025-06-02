@@ -20,14 +20,6 @@
 
     html {
       background: #252333;
-      background: -webkit-linear-gradient(137deg,#252333 0%, rgba(0, 0, 0, 1) 100%);
-      background: -moz-linear-gradient(137deg,#252333 0%, rgba(0, 0, 0, 1) 100%);
-      background: linear-gradient(137deg,#252333 0%, rgba(0, 0, 0, 1) 100%);
-      filter: progid:DXImageTransform.Microsoft.gradient(
-        startColorstr="#0F0F0F",
-        endColorstr="#000000",
-        GradientType=0
-      );
     }
 
     scrollbar
@@ -64,6 +56,22 @@
       color: #fff !important;
       width: 10rem;
       cursor: pointer;
+      transition: .1s;
+    }
+
+    .tabs.is-toggle a {
+      border: 1px solid #8529fd !important;
+      transition: .1s;
+      border-radius: 0.5rem !important;
+      padding: 1rem;
+      margin-right: 1rem;
+      margin-left: 1rem;
+    }
+
+    .tabs.is-toggle a:hover {
+      background: #8529fd !important;
+      color: #ffffff;
+      transition: .1s;
     }
 
     .box {
