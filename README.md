@@ -54,6 +54,15 @@ pipx reinstall hexodus
 
 <br>
 
+## To-Do
+- [] Add interactive smb client 
+- [] Add modules that uses WinRM protocol 
+- [] Add vulnerabilities modules (BadSucessor, Backup Operator and other)
+- [] Add module to download/read files remotely
+- [] Improve webview HTML and CSS
+
+<br>
+
 ## Credits
 - [NetExec](https://github.com/Pennyw0rth/NetExec)
 - [Impacket](https://github.com/fortra/impacket)

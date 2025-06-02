@@ -18,7 +18,7 @@ def start_flask():
         pid = int(pid_file.read_text())
         try:
             os.kill(pid, 0)
-            console.print(f"[[green]+[/]] Web app refreshed - http://127.0.0.1:1337 - (PID: [yellow]{pid}[/])")
+            console.print(f"[[yellow]![/]] Web app already running on http://127.0.0.1:1337 - (PID: [yellow]{pid}[/])")
             return
         except ProcessLookupError:
             pid_file.unlink()
