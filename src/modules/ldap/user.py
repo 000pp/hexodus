@@ -2,7 +2,7 @@ from rich.console import Console
 console = Console()
 from uuid import uuid4
 
-from helpers.values import fmt_multi, fmt_uac
+from src.parsers.formatters import fmt_multi, fmt_uac
 
 class User:
     name = "user"
@@ -41,7 +41,6 @@ class User:
 
         values = []
         for entry in conn.entries:
-            adminCount = "Yes" if entry.adminCount.value == "1" else "No" or "None"
             description = entry.description.value or "No description"
             memberOf = fmt_multi(entry.memberOf.value)
             objectSid = entry.objectSid.value or "None"
@@ -54,7 +53,6 @@ class User:
             userAccountControl = fmt_uac(entry.userAccountControl.value) or entry.userAccountControl.value or "None"
 
             result = f"""Username: {sAMAccountName}
-High Privileged User: {adminCount}
 Description: {description}
 Member of: {memberOf}
 SID: {objectSid}
