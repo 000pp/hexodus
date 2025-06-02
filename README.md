@@ -55,11 +55,16 @@ pipx reinstall hexodus
 <br>
 
 ## To-Do
-- [] Add interactive smb client 
-- [] Add modules that uses WinRM protocol 
-- [] Add vulnerabilities modules (BadSucessor, Backup Operator and other)
-- [] Add module to download/read files remotely
-- [] Improve webview HTML and CSS
+- [ ] Add interactive smb client 
+- [ ] Add modules that uses WinRM protocol 
+- [ ] Add vulnerabilities modules (BadSucessor, Backup Operator and other)
+- [ ] Add module to download/read files remotely
+- [ ] Add support to IP interfaces and file with hosts
+- [ ] Add support to Kerberos
+- [ ] Improve webview HTML and CSS
+- [ ] Improve LDAP binding method
+- [ ] Search for new protocols to use
+- [ ] Automatize known-attacks (UnPAC the hash for example)
 
 <br>
 
