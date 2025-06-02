@@ -11,7 +11,7 @@ class Share:
 
     def on_login(self, host, save_output = False, module_args = None):
 
-        console.print(f"[[green]+[/]] [cyan]MODULE[/]  Running [yellow]{self.name}[/] module")
+        console.print(f"[[green]+[/]] [cyan]MODULE[/]  Running [yellow]{self.name}[/] module\n")
 
         rpc_connection = get_rpc_connection(host)
         resp = srvs.hNetrShareEnum(rpc_connection, 2)
@@ -33,7 +33,7 @@ class Share:
 
             share_info: str = f"{share_name} - {share_remark} - {share_path}"
             
-            console.print(f" * {share_info} ", highlight=False)
+            console.print(f"{share_info} ", highlight=False)
 
             output.append(share_info)
 

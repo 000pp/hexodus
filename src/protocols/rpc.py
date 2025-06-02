@@ -29,7 +29,6 @@ def get_rpc_connection(host: str):
 
         try:
             transport_obj.connect()
-            console.print("[[green]+[/]] [cyan]RPC[/]     connection established\n")
             dce = transport_obj.DCERPC_class(transport_obj)
             dce.bind(srvs.MSRPC_UUID_SRVS)
             return dce
