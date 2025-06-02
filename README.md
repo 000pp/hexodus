@@ -46,6 +46,29 @@ pipx reinstall hexodus
 <br>
 
 ## Usage
+
+To start using Hexodus, you need to create a profile and setup some information to be used in the LDAP and SMB binding process. The basic usage consists in:
+
+1. Create a profile
+```
+hexodus -c <profile-name> <domain> <user> <password>
+hexodus -c corp corp.local john.doe 'NewPassword123!'
+```
+
+2. Try binding the connection or running a module
+```
+hexodus corp ldap 192.168.15.52
+hexodus corp ldap 192.168.15.52  users
+hexodus corp smb  192.168.52.52  share
+```
+
+You can also list the existing modules for each protocol using "list" in the host argument position:
+```
+hexodus corp ldap list
+```
+
+<br>
+
 ![image](https://github.com/user-attachments/assets/8120f17c-3d78-46ae-b783-37cdcc4cb78e)
 
 ![image](https://github.com/user-attachments/assets/004adcf6-1023-4313-acbb-abbf0eb4ff40)
