@@ -69,11 +69,11 @@ hexodus corp ldap list
 
 <br>
 
-![image](https://github.com/user-attachments/assets/8120f17c-3d78-46ae-b783-37cdcc4cb78e)
+![image](https://github.com/user-attachments/assets/650cff60-246c-4764-af0d-68b5a7d7070b)
 
-![image](https://github.com/user-attachments/assets/004adcf6-1023-4313-acbb-abbf0eb4ff40)
+![image](https://github.com/user-attachments/assets/fa553d83-069c-4fe0-878f-5f452603923f)
 
-![image](https://github.com/user-attachments/assets/98d6d1ba-0e4c-402c-b320-c228aa3a839a)
+![image](https://github.com/user-attachments/assets/944fb9d7-ebc5-4083-910d-126e04b707d7)
 
 <br>
 
@@ -84,7 +84,7 @@ hexodus corp ldap list
 - [ ] Add module to download/read files remotely
 - [ ] Add support to IP networks and files as input
 - [ ] Add support to Kerberos
-- [ ] Improve webview HTML and CSS
+- [x] Improve webview HTML and CSS
 - [ ] Improve LDAP binding method
 - [ ] Search for new protocols to use
 - [ ] Automatize known-attacks (UnPAC the hash for example)
