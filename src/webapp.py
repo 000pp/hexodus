@@ -7,7 +7,6 @@ from rich.console import Console
 console = Console()
 from pathlib import Path
 from signal import SIGTERM
-from os import killpg
 
 def start_flask():
     pid_file = Path(os.path.expanduser("~")) / ".hexodus" / "flask.pid"
@@ -41,7 +40,7 @@ def stop_flask():
 
     pid = int(pid_file.read_text())
     try:
-        killpg(pid, SIGTERM)
+        os.killpg(pid, SIGTERM)
         console.print(f"[[green]+[/]] Web app stopped successfully ([yellow]{pid}[/])")
     except ProcessLookupError:
         console.print(f"[[red]x[/]] Web app not found ([yellow]{pid}[/])")
