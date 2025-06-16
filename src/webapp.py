@@ -1,12 +1,11 @@
 import sqlite3
 import argparse
-from flask import Flask, render_template
+import subprocess, sys, os
 
+from flask import Flask, render_template
 from rich.console import Console
 console = Console()
-
 from pathlib import Path
-import subprocess, sys, os
 from signal import SIGTERM
 from os import killpg
 
@@ -50,10 +49,7 @@ def stop_flask():
         pid_file.unlink()
 
 def create_app():
-    app = Flask(
-        __name__,
-        template_folder=os.path.join(os.path.dirname(__file__), "templates")
-    )
+    app = Flask(__name__, template_folder=os.path.join(os.path.dirname(__file__), "templates"))
 
     @app.route("/")
     def index():
@@ -74,9 +70,7 @@ def create_app():
             entry = { cols[i]: row[i] for i in range(len(cols)) }
             modules.append(entry)
 
-        return render_template("index.html",
-                               modules=modules,
-                               profiles=profiles)
+        return render_template("index.html", modules=modules, profiles=profiles)
 
     return app
 

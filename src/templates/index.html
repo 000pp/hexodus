@@ -2,173 +2,504 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>Hexodus Webview</title>
+  <title>Hexodus Profiles Dashboard</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
   <style>
-
-    @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+    :root {
+      --primary-color: #8b5cf6;
+      --primary-dark: #7c3aed;
+      --secondary-color: #06b6d4;
+      --background-dark: #0f172a;
+      --surface-dark: #1e293b;
+      --surface-light: #334155;
+      --text-primary: #f8fafc;
+      --text-secondary: #cbd5e1;
+      --text-muted: #64748b;
+      --success-color: #10b981;
+      --warning-color: #f59e0b;
+      --error-color: #ef4444;
+      --border-color: #475569;
+      --shadow-primary: 0 20px 25px -5px rgba(139, 92, 246, 0.1), 0 10px 10px -5px rgba(139, 92, 246, 0.04);
+      --shadow-card: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    }
 
     * {
-      font-family: 'Poppins', sans-serif;
-      scrollbar-width: auto;
-      scrollbar-color: #8529fd #252333;
-      --sb-track-color: #252333;
-      --sb-thumb-color: #8529fd;
-      --sb-size: 14px;
+      font-family: 'Roboto', -apple-system, BlinkMacSystemFont, sans-serif;
+      scrollbar-width: thin;
+      scrollbar-color: var(--primary-color) var(--surface-dark);
     }
 
-    html {
-      background: #252333;
+    *::-webkit-scrollbar {
+      width: 8px;
     }
 
-    scrollbar
-
-    body::-webkit-scrollbar {
-      width: var(--sb-size)
+    *::-webkit-scrollbar-track {
+      background: var(--surface-dark);
+      border-radius: 4px;
     }
 
-    body::-webkit-scrollbar-track {
-      background: var(--sb-track-color);
-      border-radius: 3px;
+    *::-webkit-scrollbar-thumb {
+      background: var(--primary-color);
+      border-radius: 4px;
     }
 
-    body::-webkit-scrollbar-thumb {
-      background: var(--sb-thumb-color);
-      border-radius: 3px;
-      
+    *::-webkit-scrollbar-thumb:hover {
+      background: var(--primary-dark);
     }
 
-    @supports not selector(::-webkit-scrollbar) {
-      body {
-        scrollbar-color: var(--sb-thumb-color)
-                        var(--sb-track-color);
-      }
+    html, body {
+      background: linear-gradient(135deg, var(--background-dark) 0%, #1a202c 100%);
+      min-height: 100vh;
     }
 
-    .title {
-      font-size: 4rem !important;
-      color: #ffffff;
+    .dashboard-header {
+      background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+      padding: 2rem 0;
+      margin-bottom: 2rem;
+      box-shadow: var(--shadow-primary);
     }
 
-    .tabs.is-toggle li.is-active a {
-      background-color: #8529fd !important;
-      color: #fff !important;
-      width: 10rem;
-      cursor: pointer;
-      transition: .1s;
+    .dashboard-title {
+      font-size: 3rem !important;
+      font-weight: 700;
+      color: white;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+      margin-bottom: 0.5rem;
     }
 
-    .tabs.is-toggle a {
-      border: 1px solid #8529fd !important;
-      transition: .1s;
-      border-radius: 0.5rem !important;
-      padding: 1rem;
-      margin-right: 1rem;
-      margin-left: 1rem;
+    .dashboard-subtitle {
+      color: rgba(255, 255, 255, 0.9);
+      font-size: 1.2rem;
+      font-weight: 300;
     }
 
-    .tabs.is-toggle a:hover {
-      background: #8529fd !important;
-      color: #ffffff;
-      transition: .1s;
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
     }
 
-    .box {
-      background-color: #0f0f0f;
-      color: #ffffff;
-      border: 1px solid #8529fd;
-      box-shadow: -1px 15px 38px 5px rgba(84,41,145,0.63);
-      -webkit-box-shadow: -1px 15px 38px 5px rgba(84,41,145,0.63);
-      -moz-box-shadow: -1px 15px 38px 5px rgba(84,41,145,0.63);
+    .stat-card {
+      background: var(--surface-dark);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 1.5rem;
+      box-shadow: var(--shadow-card);
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
     }
 
-    .message-body {
-      background: #171717;
-      color: #ffffff;
-      border-radius: 0px;
+    .stat-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
     }
 
-    .message-header {
-      background-color: #8529fd !important;
+    .stat-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2), 0 10px 10px -5px rgba(0, 0, 0, 0.1);
+      border-color: var(--primary-color);
     }
 
-    #header {
-      text-align: center;
+    .stat-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
       margin-bottom: 1rem;
     }
 
-    pre {
-      color: #ffffff;
-      background: #0f0f0f !important;
+    .stat-icon.primary {
+      background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+      color: white;
     }
 
-    .text-footer {
-      text-align: center;
+    .stat-icon.success {
+      background: linear-gradient(135deg, var(--success-color), #059669);
+      color: white;
+    }
+
+    .stat-icon.warning {
+      background: linear-gradient(135deg, var(--warning-color), #d97706);
+      color: white;
+    }
+
+    .stat-icon.info {
+      background: linear-gradient(135deg, var(--secondary-color), #0891b2);
+      color: white;
+    }
+
+    .stat-value {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 0.5rem;
+    }
+
+    .stat-label {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+
+    .tabs.is-toggle {
+      margin-bottom: 2rem;
+    }
+
+    .tabs.is-toggle li a {
+      border: 2px solid var(--border-color) !important;
+      background: var(--surface-dark);
+      color: var(--text-secondary);
+      border-radius: 12px !important;
+      padding: 1rem 2rem;
+      margin: 0 0.5rem;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .tabs.is-toggle li a::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+      transition: left 0.5s;
+    }
+
+    .tabs.is-toggle li a:hover::before {
+      left: 100%;
+    }
+
+    .tabs.is-toggle li a:hover {
+      background: var(--surface-light);
+      color: var(--text-primary);
+      border-color: var(--primary-color) !important;
+      transform: translateY(-2px);
+    }
+
+    .tabs.is-toggle li.is-active a {
+      background: linear-gradient(135deg, var(--primary-color), var(--primary-dark)) !important;
+      color: white !important;
+      border-color: var(--primary-color) !important;
+      box-shadow: var(--shadow-primary);
+    }
+
+    .profile-panel {
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: var(--shadow-card);
+      margin-bottom: 2rem;
+    }
+
+    .module-card {
+      background: var(--background-dark);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      margin-bottom: 1rem;
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .module-card:hover {
+      border-color: var(--primary-color);
+      box-shadow: 0 4px 12px rgba(139, 92, 246, 0.15);
+    }
+
+    .module-header {
+      background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+      color: white;
+      padding: 1rem 1.5rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .module-content {
+      background: var(--surface-light);
+      color: var(--text-primary);
+      padding: 1.5rem;
+      font-family: 'JetBrains Mono', 'Fira Code', monospace;
+      font-size: 0.9rem;
+      line-height: 1.6;
+      max-height: 400px;
+      overflow-y: auto;
+    }
+
+    .module-content pre {
+      background: transparent !important;
+      color: inherit;
+      padding: 0;
+      margin: 0;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+    }
+
+    .footer {
+      background: var(--surface-dark);
+      border-top: 1px solid var(--border-color);
+      padding: 2rem 0;
       margin-top: 3rem;
-      color: #a4a4a4;
+      text-align: center;
     }
 
-  </style>
+    .footer-content {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
 
+    .footer-brand {
+      background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      font-weight: 700;
+      font-size: 1.1rem;
+    }
+
+    .loading-skeleton {
+      background: linear-gradient(90deg, var(--surface-dark) 25%, var(--surface-light) 50%, var(--surface-dark) 75%);
+      background-size: 200% 100%;
+      animation: loading 1.5s infinite;
+    }
+
+    @keyframes loading {
+      0% { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
+
+    .fade-in {
+      animation: fadeIn 0.5s ease-in;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .status-indicator {
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      margin-right: 0.5rem;
+    }
+
+    .status-online { background: var(--success-color); }
+    .status-warning { background: var(--warning-color); }
+    .status-offline { background: var(--error-color); }
+
+    @media (max-width: 768px) {
+      .dashboard-title {
+        font-size: 2rem !important;
+      }
+      
+      .stats-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .tabs.is-toggle li a {
+        padding: 0.75rem 1rem;
+        margin: 0 0.25rem;
+        font-size: 0.9rem;
+      }
+    }
+  </style>
 </head>
+
 <body>
+  <div class="dashboard-header">
+    <div class="container">
+      <div class="has-text-centered">
+        <h1 class="title dashboard-title">
+          Hexodus
+        </h1>
+        <p class="dashboard-subtitle">Profiles Dashboard</p>
+      </div>
+    </div>
+  </div>
+
   <section class="section">
     <div class="container">
+      
+      <!-- Stats Cards -->
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-icon primary"><i class="fas fa-users"></i></div>
+          <div class="stat-value" id="profiles-count">{{ profiles|length if profiles else '0' }}</div>
+          <div class="stat-label">Loaded Profiles</div>
+        </div>
 
-    <div class="tabs is-toggle is-centered is-medium is-boxed">
-      <ul>
-        {% for profile in profiles %}
-          <li{% if loop.first %} class="is-active"{% endif %}>
-            <a><strong>{{ profile }}</strong></a>
-          </li>
-        {% endfor %}
-      </ul>
-    </div>
-
-    {% for prof in profiles %}
-      <div class="box">
-        {% for m in modules %}
-          {% if m[prof] %}
-            <article class="message">
-              <div class="message-header">
-                <p>{{ m['module'].capitalize() }}</p>
-              </div>
-              <div class="message-body">
-                <pre>{{ m[prof] }}</pre>
-              </div>
-            </article>
-          {% endif %}
-        {% endfor %}
+      <div class="stat-card">
+          <div class="stat-icon primary"><i class="fas fa-tools"></i></div>
+          <div class="stat-value" id="modules-count">0</div>
+          <div class="stat-label">Modules Runned</div>
+        </div>
       </div>
-    {% endfor %}
+
+      <!-- Profile Tabs -->
+      <div class="tabs is-toggle is-centered is-medium">
+        <ul>
+          {% for profile in profiles %}
+            <li{% if loop.first %} class="is-active"{% endif %}>
+              <a>
+                <span class="status-indicator status-online"></span>
+                <strong>{{ profile }}</strong>
+              </a>
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+
+      <!-- Profile Panels -->
+      {% for prof in profiles %}
+        <div class="profile-panel fade-in">
+          {% for m in modules %}
+            {% if m[prof] %}
+              <div class="module-card">
+                <div class="module-header">
+                  <i class="fas fa-cube"></i>
+                  {{ m['module'].capitalize() }}
+                </div>
+                <div class="module-content">
+                  <pre>{{ m[prof] }}</pre>
+                </div>
+              </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+        
+      {% else %}
+
+        <div class="profile-panel fade-in">
+          <div class="module-card">
+            <div class="module-header">
+              <i class="fas fa-server"></i>
+              No data loaded yet
+              <span class="tag is-light is-small" style="margin-left: auto;">
+                <i class="fas fa-circle" style="color: #d13625; margin-right: 0.5rem;"></i>
+                No data
+              </span>
+            </div>
+            <div class="module-content">
+              <pre>Try running hexodus modules to collect data</pre>
+            </div>
+          </div>
+        
+      {% endfor %}
     </div>
-
-    <p class="text-footer">Hexodus - 2025 - 000pp</p>
-
   </section>
 
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-brand">Hexodus</div>
+        <p>000pp • 2025</p>
+        </p>
+      </div>
+    </div>
+  </footer>
+
   <script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const tabs    = document.querySelectorAll('.tabs ul li');
-    const panels  = document.querySelectorAll('.box');
+    document.addEventListener('DOMContentLoaded', () => {
+      const tabs = document.querySelectorAll('.tabs ul li');
+      const panels = document.querySelectorAll('.profile-panel');
 
-    tabs.forEach((tab, i) => {
-      tab.addEventListener('click', () => {
-      
-        tabs.forEach(t => t.classList.remove('is-active'));
-        panels.forEach(p => p.style.display = 'none');
+      function countModules() {
+        const moduleCards = document.querySelectorAll('.module-card');
+        const modulesCountElement = document.getElementById('modules-count');
+        
+        const realModules = Array.from(moduleCards).filter(card => {
+          const headerText = card.querySelector('.module-header').textContent;
+          return !headerText.includes('No data loaded yet');
+        });
+        
+        const count = realModules.length;
+        modulesCountElement.textContent = count;
 
-        tab.classList.add('is-active');
-        panels[i].style.display = '';
+      }
+
+      // Conta módulos inicial
+      countModules();
+
+      panels.forEach((panel, index) => {
+        panel.style.display = index === 0 ? 'block' : 'none';
       });
-    });
 
-    panels.forEach((p, i) => {
-      p.style.display = (i === 0 ? '' : 'none');
+      // Profile tab effect
+      tabs.forEach((tab, index) => {
+        tab.addEventListener('click', () => {
+          tabs.forEach(t => t.classList.remove('is-active'));
+          
+          panels.forEach(panel => {
+            panel.style.opacity = '0';
+            panel.style.transform = 'translateY(20px)';
+            setTimeout(() => {
+              panel.style.display = 'none';
+            }, 200);
+          });
+
+          tab.classList.add('is-active');
+          
+          setTimeout(() => {
+            if (panels[index]) {
+              panels[index].style.display = 'block';
+              setTimeout(() => {
+                panels[index].style.opacity = '1';
+                panels[index].style.transform = 'translateY(0)';
+                countModules();
+              }, 50);
+            }
+          }, 200);
+        });
+      });
+
+      // Panel transition effect
+      panels.forEach(panel => {
+        panel.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+      });
+
+      // Loading effect
+      tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+          const loadingCards = document.querySelectorAll('.module-card');
+          loadingCards.forEach(card => {
+            card.classList.add('loading-skeleton');
+            setTimeout(() => {
+              card.classList.remove('loading-skeleton');
+            }, 800);
+          });
+        });
+      });
+
+      const observer = new MutationObserver(() => {
+        countModules();
+      });
+
+      panels.forEach(panel => {
+        observer.observe(panel, {
+          childList: true,
+          subtree: true
+        });
+      });
+
     });
-  });
   </script>
-
 </body>
 </html>
