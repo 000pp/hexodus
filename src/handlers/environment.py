@@ -43,7 +43,7 @@ def ensure_profile_column(profile: str) -> None:
     database_connection.close()
 
 
-def save_module_output(profile: str, module: str, output: str) -> None:
+def save_to_database(profile: str, module: str, output: str) -> None:
     """ Save the collected data to the database to be used by the webapp """
 
     database = f"{user_home()}/.hexodus/data.db"
