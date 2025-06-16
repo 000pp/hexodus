@@ -71,7 +71,7 @@ hexodus corp smb list
 To start or stop the webapp you use the `-s` and `-sw` flags:
 ```
 hexodus -s    (start the webapp)
-hexodus (-sw) (stop the webapp)
+hexodus -sw   (stop the webapp)
 ```
 
 <br>
