@@ -7,6 +7,7 @@ console = Console()
 from handlers.profile import get_username, get_password, get_domain
 
 def get_rpc_connection(host: str):
+        """ RPC Connection Handler: establish an RPC connection with the host and returns DCE object """
         
         username, password, domain = get_username(), get_password(), get_domain()
 
@@ -31,7 +32,7 @@ def get_rpc_connection(host: str):
             transport_obj.connect()
             dce = transport_obj.DCERPC_class(transport_obj)
             dce.bind(srvs.MSRPC_UUID_SRVS)
-            return dce
+            return dce 
 
         except DCERPCException as error:
             console.print(f"[[red]![/]] Error estabilishing RPC connection: {error}")

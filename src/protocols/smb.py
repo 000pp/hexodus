@@ -5,7 +5,7 @@ console = Console()
 from handlers.profile import get_username, get_password, get_domain
 
 def get_smb_connection(host: str) -> None:
-    """ SMB Connection Handler """
+    """ SMB Connection Handler: Establish an SMB connection with the host and return the connection object """
 
     username, password, domain = get_username(), get_password(), get_domain()
 

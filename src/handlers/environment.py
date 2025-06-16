@@ -9,7 +9,7 @@ from json import dump
 import sqlite3
 
 def init_database() -> None:
-    """ """
+    """ Initializes the default Hexodus database """
     
     database = path.join(user_home(), ".hexodus", "data.db")
     sqlite_cursor = sqlite3.connect(database)
@@ -23,7 +23,7 @@ def init_database() -> None:
 
 
 def ensure_profile_column(profile: str) -> None:
-    """ """
+    """ Makes sure that the "profile" column exists in Hexodus database """
     
     database = path.join(user_home(), ".hexodus", "data.db")
     database_connection = sqlite3.connect(database)

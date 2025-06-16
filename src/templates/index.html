@@ -435,14 +435,12 @@
 
       }
 
-      // Conta módulos inicial
       countModules();
 
       panels.forEach((panel, index) => {
         panel.style.display = index === 0 ? 'block' : 'none';
       });
 
-      // Profile tab effect
       tabs.forEach((tab, index) => {
         tab.addEventListener('click', () => {
           tabs.forEach(t => t.classList.remove('is-active'));
@@ -470,12 +468,10 @@
         });
       });
 
-      // Panel transition effect
       panels.forEach(panel => {
         panel.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
       });
 
-      // Loading effect
       tabs.forEach(tab => {
         tab.addEventListener('click', () => {
           const loadingCards = document.querySelectorAll('.module-card');
