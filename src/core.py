@@ -59,7 +59,7 @@ def setup() -> None:
     parser.add_argument(
         "module_args",
         help="Arguments specific to the chosen module",
-        nargs=REMAINDER, 
+        nargs='*',
         default=None
     )
 
@@ -116,9 +116,8 @@ def setup() -> None:
     )
 
     args = parser.parse_args()
-
-    ensure_base_dir()
     save_output = args.output
+    ensure_base_dir()
     
     if args.create_profile:
         create_profile(*args.create_profile)
@@ -160,7 +159,7 @@ def setup() -> None:
         if args.protocol == "smb":
 
             if args.module == None and args.host == None:
-                console.print("[[red]![/]] You need to specify at least a host address")
+                console.print("[[red]![/]] You need to specify at least one host address")
                 return
 
             if args.module == None and args.host != "list":
@@ -184,17 +183,18 @@ def setup() -> None:
 
                     if values:
                         text = "\n".join(values)
-                        save_module_output(args.profile, args.module, text)
+                        save_to_database(args.profile, args.module, text)
 
                 except ModuleNotFoundError:
                     raise Exception
-                    console.print(f"\n[ERROR] Module '{args.module}' not found.")
+                    console.print(f"\n[[red]x[/]] Module '{args.module}' not found")
+                    return
 
 
         if args.protocol == "ldap":
 
             if args.module == None and args.host == None:
-                console.print("[[red]![/]] You need to specify at least a host address")
+                console.print("[[red]x[/]] You need to specify at least one host address")
                 return
 
             if args.module == None and args.host != "list":
@@ -218,8 +218,9 @@ def setup() -> None:
 
                     if values:
                         text = "\n".join(values)
-                        save_module_output(args.profile, args.module, text,)
+                        save_to_database(args.profile, args.module, text)
 
                 except ModuleNotFoundError:
                     raise Exception
-                    console.print(f"\n[ERROR] Module '{args.module}' not found.")
+                    console.print(f"\n[[red]x[/]] Module '{args.module}' not found")
+                    return
