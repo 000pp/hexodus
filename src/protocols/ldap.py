@@ -2,6 +2,7 @@ import ldap3
 import ssl
 from ldap3.core.exceptions import LDAPBindError, LDAPInvalidCredentialsResult
 from rich.console import Console
+from sys import exit
 
 from handlers.profile import get_username, get_password, get_domain
 
@@ -57,7 +58,7 @@ def get_ldap_connection(host: str):
 
     except LDAPInvalidCredentialsResult:
         console.print(f"[[red]x[/]] Invalid credentials provided. ({user}:{password})", highlight=False)
-        return
+        exit(0)
 
     try:
         ldaps_connection = ldap3.Connection(
@@ -82,7 +83,7 @@ def get_ldap_connection(host: str):
     
     except LDAPInvalidCredentialsResult:
         console.print(f"[[red]x[/]] Invalid credentials provided. ({user}:{password})", highlight=False)
-        return
+        exit(0)
 
     except LDAPBindError as e:
         console.print(f"[[red]x[/]] LDAPS bind failed: {e}", highlight=False)
