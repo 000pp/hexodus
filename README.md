@@ -65,6 +65,13 @@ hexodus corp smb  192.168.52.52 share
 You can also list the available modules for each protocol by using `list` in place of the host argument:
 ```
 hexodus corp ldap list
+hexodus corp smb list
+```
+
+To start or stop the webapp you use the `-s` and `-sw` flags:
+```
+hexodus -s    (start the webapp)
+hexodus (-sw) (stop the webapp)
 ```
 
 <br>
