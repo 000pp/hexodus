@@ -187,6 +187,7 @@ def setup() -> None:
                         save_module_output(args.profile, args.module, text)
 
                 except ModuleNotFoundError:
+                    raise Exception
                     console.print(f"\n[ERROR] Module '{args.module}' not found.")
 
 
@@ -220,4 +221,5 @@ def setup() -> None:
                         save_module_output(args.profile, args.module, text,)
 
                 except ModuleNotFoundError:
+                    raise Exception
                     console.print(f"\n[ERROR] Module '{args.module}' not found.")

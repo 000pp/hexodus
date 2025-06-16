@@ -35,6 +35,7 @@ def get_ldap_connection(host: str):
             authentication=ldap3.NTLM,
             auto_bind=True,
             session_security="ENCRYPT", # ← enable LDAP signing
+            auto_referrals=False,
             raise_exceptions=True
         )
 
@@ -42,7 +43,7 @@ def get_ldap_connection(host: str):
         encrypted = "[green]Yes[/]" if ldap_connection.server.ssl else "[red]No[/]"
         #base_dn = ldap_connection.server.info.other.get("defaultNamingContext", ["<none>"])[0]
         base_dn = ldap_connection.server.info.naming_contexts[0]
-
+        
         console.print(f"[[green]+[/]] [cyan]LDAP[/]    {host} " f"({base_dn}) " f"(Signing: {signing}) " f"(Encrypted: {encrypted})", highlight=False)
         console.print(f"[[green]+[/]] [cyan]LDAP[/]    {domain}\\{username}:{password}", highlight=False)
         console.print("[[green]+[/]] [cyan]LDAP[/]    bind successful with signing", highlight=False)
@@ -65,6 +66,7 @@ def get_ldap_connection(host: str):
             password=password,
             authentication=ldap3.NTLM,
             auto_bind=True,
+            auto_referrals=False,
             raise_exceptions=True
         )
 

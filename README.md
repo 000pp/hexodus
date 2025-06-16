@@ -58,8 +58,8 @@ hexodus -c corp corp.local john.doe 'NewPassword123!'
 2. Test the connection or run a module
 ```
 hexodus corp ldap 192.168.15.52
-hexodus corp ldap 192.168.15.52  users
-hexodus corp smb  192.168.52.52  share
+hexodus corp ldap 192.168.15.52 users
+hexodus corp smb  192.168.52.52 share
 ```
 
 You can also list the available modules for each protocol by using `list` in place of the host argument:
@@ -82,7 +82,7 @@ hexodus corp ldap list
 - [ ] Add modules that uses WinRM protocol 
 - [ ] Add vulnerabilities modules (BadSucessor, Backup Operator and other)
 - [ ] Add module to download/read files remotely
-- [ ] Add support to IP interfaces and file with hosts
+- [ ] Add support to IP networks and files as input
 - [ ] Add support to Kerberos
 - [ ] Improve webview HTML and CSS
 - [ ] Improve LDAP binding method

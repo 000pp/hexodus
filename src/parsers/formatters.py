@@ -1,4 +1,8 @@
 from struct import unpack_from
+from Cryptodome.Hash import MD4
+from binascii import hexlify
+
+from parsers.gmsa import MSDS_MANAGEDPASSWORD_BLOB
 
 def fmt_multi(input):
     """ Format values that can be str, list or None and returns an formatted string """
@@ -42,3 +46,17 @@ def fmt_sid(sid):
         sid_string += f"-{sub_authority}"
 
     return sid_string
+
+def fmt_gmsa(password):
+    """ Transform GMSA blob password to usable NT hash """
+
+    blob = MSDS_MANAGEDPASSWORD_BLOB()
+
+    if len(password) != 0:
+        blob.fromString(password)
+        hash = MD4.new()
+        hash.update(blob['CurrentPassword'][:-2])
+        msDS_ManagedPassword_cleartext = hexlify(hash.digest()).decode("ascii")
+        return msDS_ManagedPassword_cleartext
+    
+    return "None"
