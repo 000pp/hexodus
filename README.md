@@ -22,7 +22,7 @@ We recommend using [pipx](https://github.com/pypa/pipx) to install the project, 
 ```
 sudo apt install pipx git
 pipx ensurepath
-pix install git+https://github.com/000pp/hexodus
+pipx install git+https://github.com/000pp/hexodus
 ```
 
 ### MacOS
