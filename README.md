@@ -29,7 +29,7 @@ pix install git+https://github.com/000pp/hexodus
 ```
 brew install pipx
 pipx ensurepath
-pix install git+https://github.com/000pp/hexodus
+pipx install git+https://github.com/000pp/hexodus
 ```
 
 ### Local
