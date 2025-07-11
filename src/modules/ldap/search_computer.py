@@ -15,7 +15,7 @@ class Search_computer:
         console.print(f"[[green]+[/]] [cyan]MODULE[/]  Running [yellow]{self.name}[/] module")
 
         computer_name = " ".join(module_args)
-        search_filter = f"(&(objectCategory=computer)(cn={computer_name}))"
+        search_filter = f"(&(objectCategory=computer)(cn=*{computer_name}*))"
         results = conn.search(base_dn, search_filter, attributes=self.attributes)
         entries = conn.entries
 
