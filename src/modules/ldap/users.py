@@ -11,7 +11,7 @@ class Users:
     def on_login(self, conn, base_dn, save_output = False, module_args = None):
         console.print(f"[[green]+[/]] [cyan]MODULE[/]  Running [yellow]{self.name}[/] module")
 
-        results = conn.search(base_dn, self.search_filter, attributes=self.attributes)
+        results = conn.search(base_dn, self.search_filter, attributes=self.attributes, paged_size=1000, generator=True)
         entries = conn.entries
 
         if not entries:
