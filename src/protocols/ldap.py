@@ -68,9 +68,7 @@ def get_ldap_connection(host: str):
             authentication=ldap3.NTLM,
             auto_bind=True,
             auto_referrals=False,
-            raise_exceptions=True,
-            generator=True,
-            paged_size=1000
+            raise_exceptions=True
         )
 
         signing = "[green]Yes[/]" if ldaps_connection.session_security in ("SIGNATURE", "ENCRYPT") else "[red]No[/]"
