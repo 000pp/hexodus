@@ -37,7 +37,9 @@ def get_ldap_connection(host: str):
             auto_bind=True,
             session_security="ENCRYPT", # ← enable LDAP signing
             auto_referrals=False,
-            raise_exceptions=True
+            raise_exceptions=True,
+            generator=True,
+            paged_size=1000
         )
 
         signing = "[green]Yes[/]" if ldap_connection.session_security in ("SIGNATURE", "ENCRYPT") else "[red]No[/]"
@@ -68,7 +70,9 @@ def get_ldap_connection(host: str):
             authentication=ldap3.NTLM,
             auto_bind=True,
             auto_referrals=False,
-            raise_exceptions=True
+            raise_exceptions=True,
+            generator=True,
+            paged_size=1000
         )
 
         signing = "[green]Yes[/]" if ldaps_connection.session_security in ("SIGNATURE", "ENCRYPT") else "[red]No[/]"
