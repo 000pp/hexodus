@@ -37,9 +37,7 @@ def get_ldap_connection(host: str):
             auto_bind=True,
             session_security="ENCRYPT", # ← enable LDAP signing
             auto_referrals=False,
-            raise_exceptions=True,
-            generator=True,
-            paged_size=1000
+            raise_exceptions=True
         )
 
         signing = "[green]Yes[/]" if ldap_connection.session_security in ("SIGNATURE", "ENCRYPT") else "[red]No[/]"
@@ -83,7 +81,7 @@ def get_ldap_connection(host: str):
         console.print(f"[[green]+[/]] [cyan]LDAPS[/]    {domain}\\{username}:{password}", highlight=False)
         console.print("[[green]+[/]] [cyan]LDAPS[/]     bind successful", highlight=False)
 
-        return ldap_connection, base_dn
+        return ldaps_connection, base_dn
     
     except LDAPInvalidCredentialsResult:
         console.print(f"[[red]x[/]] Invalid credentials provided. ({user}:{password})", highlight=False)
