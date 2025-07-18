@@ -25,7 +25,7 @@ class Gpos:
         values = []
         for entry in conn.entries:
             displayName = safe_ldap_attr(entry, 'displayName', 'None')
-            gPCFileSysPath = safe_ldap_attr(entry, gPCFileSysPath, 'None')
+            gPCFileSysPath = safe_ldap_attr(entry, 'gPCFileSysPath', 'None')
 
             result = f"{displayName} - {gPCFileSysPath}"
             values.append(result)
