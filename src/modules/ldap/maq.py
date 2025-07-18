@@ -31,4 +31,4 @@ class Maq:
                     f.write(v + "\n")
             console.print(f"\n[[green]+[/]] Output saved to {filename}", highlight=False)
 
-        return values
+        return str(values)
