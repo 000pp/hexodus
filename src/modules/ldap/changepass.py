@@ -29,7 +29,7 @@ class Changepass:
             console.print(f"\n[[red]x[/]] Impossible to get {username} distinguishedName attribute value. Check if the user actually exists.")
             return
         
-        console.print(f"\n[black]{username} distinguishedName: {user_dn}[/]", highlight=False)
+        console.print(f"\n[yellow]{username} distinguishedName: {user_dn}[/]", highlight=False)
         console.print(f"[[yellow]![/]] Changing {username} password to {password}", highlight=False)
 
         try:
