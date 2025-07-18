@@ -55,8 +55,18 @@ class Trusts:
             cn = safe_ldap_attr(entry, 'cn', 'None')
             distinguishedName = safe_ldap_attr(entry, 'distinguishedName', 'None')
             securityIdentifier = safe_ldap_sid(entry, 'securityIdentifier', 'None')
-            trustDirection = safe_ldap_attr(entry, fmt_trust_direction('trustDirection'), 'None')
-            trustType = safe_ldap_attr(entry, fmt_trust_type('trustType'), 'None')
+
+            raw_direction = safe_ldap_attr(entry, 'trustDirection', None)
+            if raw_direction is not None:
+                trustDirection = fmt_trust_direction(raw_direction)
+            else:
+                trustDirection = 'None'
+
+            raw_type = safe_ldap_attr(entry, 'trustType', None)
+            if raw_type is not None:
+                trustType = fmt_trust_type(raw_type)
+            else:
+                trustType = 'None'
 
             result = f"""cn: {cn}
 distinguishedName: {distinguishedName}
