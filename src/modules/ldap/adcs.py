@@ -3,6 +3,8 @@ console = Console()
 from uuid import uuid4
 from ldap3 import SUBTREE
 
+from src.protocols.ldap import safe_ldap_attr
+
 class Adcs:
     name = "adcs"
     desc = "Enumerate ADCS servers and Certificate Templates"
@@ -40,14 +42,14 @@ class Adcs:
 
         values = []
         for entry in entries:
-            dNSHostName = entry.dNSHostName.value or "None"
-            distinguishedName = entry.distinguishedName.value or "None"
-            cn = entry.cn.value or "None"
+            dNSHostName = safe_ldap_attr(entry, 'dNSHostName', 'None')
+            distinguishedName = safe_ldap_attr(entry, 'distinguishedName', 'None')
+            cn = safe_ldap_attr(entry, 'cn', 'None')
 
             result = f"{dNSHostName} - {distinguishedName} - {cn}"
             console.print(result, highlight=False)
 
-            certificateTemplates = entry.certificateTemplates.value or []
+            certificateTemplates = safe_ldap_attr(entry, 'certificateTemplates', [])
             console.print(" * Certificates:")
             if certificateTemplates:
                 for certificate in certificateTemplates:

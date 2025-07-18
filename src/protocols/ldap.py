@@ -1,6 +1,6 @@
 import ldap3
 import ssl
-from ldap3.core.exceptions import LDAPBindError, LDAPInvalidCredentialsResult
+from ldap3.core.exceptions import LDAPBindError, LDAPInvalidCredentialsResult, LDAPCursorAttributeError
 from rich.console import Console
 from sys import exit
 
@@ -88,3 +88,12 @@ def get_ldap_connection(host: str):
     except LDAPBindError as e:
         console.print(f"[[red]x[/]] LDAPS bind failed: {e}", highlight=False)
         raise
+
+
+def safe_ldap_attr(entry, attr_name, fallback=None) -> None:
+    """ Safely get a LDAP attribute value or return a valid fallback to avoid exceptions """
+    try:
+        attr = getattr(entry, attr_name, None)
+        return attr.value if attr else fallback
+    except (AttributeError, LDAPCursorAttributeError):
+        return fallback
