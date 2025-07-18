@@ -21,7 +21,7 @@ class Trusts:
             console.print(f"\n[[red]![/]] No results for {self.name}") 
             return
         
-        console.print(f"[[green]+[/]] [cyan]QUERY[/]   [black]{self.search_filter}[/]\n", highlight=False)
+        console.print(f"[[green]+[/]] [cyan]QUERY[/]   [white]{self.search_filter}[/]\n", highlight=False)
 
         # Source: https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-adts/5026a939-44ba-47b2-99cf-386a9e674b04
 
@@ -54,7 +54,7 @@ class Trusts:
         for entry in conn.entries:
             cn = safe_ldap_attr(entry, 'cn', 'None')
             distinguishedName = safe_ldap_attr(entry, 'distinguishedName', 'None')
-            securityIdentifier = safe_ldap_attr(entry, fmt_sid('securityIdentifier'), 'None')
+            securityIdentifier = safe_ldap_attr(entry, fmt_sid(b'securityIdentifier'), 'None')
             trustDirection = safe_ldap_attr(entry, fmt_trust_direction('trustDirection'), 'None')
             trustType = safe_ldap_attr(entry, fmt_trust_type('trustType'), 'None')
 
