@@ -18,7 +18,7 @@ class Admins:
             console.print(f"\n[[red]![/]] No results for {self.name}") 
             return
         
-        console.print(f"[[green]+[/]] [cyan]QUERY[/]   [black]{self.search_filter}[/]\n", highlight=False)
+        console.print(f"[[green]+[/]] [cyan]QUERY[/]   [white]{self.search_filter}[/]\n", highlight=False)
 
         values = [entry[self.attributes].value for entry in conn.entries]
         for value in values:

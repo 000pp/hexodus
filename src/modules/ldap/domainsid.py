@@ -36,7 +36,7 @@ class Domainsid:
             console.print(f"\n[[red]![/]] No results for {self.name}") 
             return
         
-        console.print(f"[[green]+[/]] [cyan]QUERY[/]   [black]{self.search_filter}[/]\n", highlight=False)
+        console.print(f"[[green]+[/]] [cyan]QUERY[/]   [white]{self.search_filter}[/]\n", highlight=False)
 
         values = []
         for entry in entries:
