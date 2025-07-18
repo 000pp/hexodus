@@ -3,7 +3,7 @@ console = Console()
 from uuid import uuid4
 
 class Search_computer:
-    name = "searchcomputer"
+    name = "search_computer"
     desc = "Get information from the group name specified"
     attributes = ["dNSHostName"]
 
@@ -27,7 +27,7 @@ class Search_computer:
 
         values = []
         for entry in conn.entries:
-            dNSHostName = entry.dNSHostName.value or "None"
+            dNSHostName = entry.dNSHostName.value or "dNSHostName is blank"
             
             values.append(dNSHostName)
             console.print(dNSHostName, highlight=False)
