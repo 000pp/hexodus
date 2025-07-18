@@ -3,7 +3,7 @@ console = Console()
 from uuid import uuid4
 from ldap3 import SUBTREE
 
-from src.protocols.ldap import safe_ldap_attr
+from protocols.ldap import safe_ldap_attr
 
 class Adcs:
     name = "adcs"
