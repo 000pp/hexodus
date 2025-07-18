@@ -3,7 +3,7 @@ console = Console()
 from uuid import uuid4
 
 from parsers.formatters import fmt_sid
-from protocols.ldap import safe_ldap_attr
+from protocols.ldap import safe_ldap_attr, safe_ldap_sid
 
 class Trusts:
     name = "trusts"
@@ -54,7 +54,7 @@ class Trusts:
         for entry in conn.entries:
             cn = safe_ldap_attr(entry, 'cn', 'None')
             distinguishedName = safe_ldap_attr(entry, 'distinguishedName', 'None')
-            securityIdentifier = safe_ldap_attr(entry, fmt_sid(b'securityIdentifier'), 'None')
+            securityIdentifier = safe_ldap_sid(entry, 'securityIdentifier', 'None')
             trustDirection = safe_ldap_attr(entry, fmt_trust_direction('trustDirection'), 'None')
             trustType = safe_ldap_attr(entry, fmt_trust_type('trustType'), 'None')
 

@@ -5,6 +5,7 @@ from rich.console import Console
 from sys import exit
 
 from handlers.profile import get_username, get_password, get_domain
+from parsers.formatters import fmt_sid
 
 console = Console()
 
@@ -97,3 +98,14 @@ def safe_ldap_attr(entry, attr_name, fallback=None) -> None:
         return attr.value if attr else fallback
     except (AttributeError, LDAPCursorAttributeError):
         return fallback
+
+def safe_ldap_sid(entry, attr_name='securityIdentifier', default='None'):
+    """ Safely get and format SID from LDAP entry """
+    try:
+        raw_sid = safe_ldap_attr(entry, attr_name, None)
+        if raw_sid:
+            return fmt_sid(raw_sid)
+        return default
+    except Exception as e:
+        print(f"Error formatting SID: {e}")
+        return default
