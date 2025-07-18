@@ -4,6 +4,8 @@ from uuid import uuid4
 from ldap3 import MODIFY_ADD
 from ldap3.core.exceptions import LDAPInsufficientAccessRightsResult, LDAPEntryAlreadyExistsResult
 
+from protocols.ldap import safe_ldap_attr
+
 class Add_to_group:
     name = "addtogroup"
     desc = "Add user to a desired group"
@@ -11,13 +13,13 @@ class Add_to_group:
     def get_user_dn(self, conn, base_dn, user):
         conn.search(base_dn, f"(&(objectClass=user)(sAMAccountName={user}))", attributes=["distinguishedName"])
         for entry in conn.entries:
-            user_dn = entry.distinguishedName.value or "None"
+            user_dn = safe_ldap_attr(entry, 'distinguishedName', 'None')
             return str(user_dn)
 
     def get_group_dn(self, conn, base_dn, group):
         conn.search(base_dn, f"(&(objectClass=group)(cn={group}))", attributes=["distinguishedName"])
         for entry in conn.entries:
-            group_dn = entry.distinguishedName.value or "None"
+            group_dn = safe_ldap_attr(entry, 'distinguishedName', 'None')
             return str(group_dn)
 
     def on_login(self, conn, base_dn, save_output = False, module_args = None):

@@ -2,6 +2,8 @@ from rich.console import Console
 console = Console()
 from uuid import uuid4
 
+from protocols.ldap import safe_ldap_attr
+
 class Obsolete:
     name = "obsolete"
     desc = "Search for computers with obsolete operating systems"
@@ -29,9 +31,9 @@ class Obsolete:
 
         values = []
         for entry in conn.entries:
-            sAMAccountName = entry.sAMAccountName.value or "None"
-            operatingSystem = entry.operatingSystem.value or "None"
-            dNSHostName = entry.dNSHostName.value or "None"
+            sAMAccountName = safe_ldap_attr(entry, 'sAMAccountName', 'None')
+            operatingSystem = safe_ldap_attr(entry, 'operatingSystem', 'None')
+            dNSHostName = safe_ldap_attr(entry, 'dNSHostName', 'None')
 
             result = f"{sAMAccountName} - {operatingSystem} - {dNSHostName}"
             values.append(result)

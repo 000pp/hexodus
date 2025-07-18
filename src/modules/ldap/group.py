@@ -3,6 +3,7 @@ console = Console()
 from uuid import uuid4
 
 from parsers.formatters import fmt_multi
+from protocols.ldap import safe_ldap_attr
 
 class Group:
     name = "group"
@@ -37,13 +38,13 @@ class Group:
 
         values = []
         for entry in conn.entries:
-            adminCount = "Yes" if entry.adminCount.value == "1" else "No" or "None"
-            description = entry.description.value or "No description"
-            distinguishedName = fmt_multi(entry.distinguishedName.value)
-            members = fmt_multi(entry.member.value)
-            memberOf = fmt_multi(entry.memberOf.value)
-            objectSid = entry.objectSid.value or "None"
-            sAMAccountName = entry.sAMAccountName.value or "None"
+            adminCount = "Yes" if safe_ldap_attr(entry, 'adminCount', 'None') == "1" else 'None'
+            description = safe_ldap_attr(entry, 'description', 'None')
+            distinguishedName = safe_ldap_attr(entry, fmt_multi('distinguishedName'), 'None')
+            members = safe_ldap_attr(entry, fmt_multi('member'), 'None')
+            memberOf = safe_ldap_attr(entry, fmt_multi('memberOf'), 'None')
+            objectSid = safe_ldap_attr(entry, 'objectSid', 'None')
+            sAMAccountName = safe_ldap_attr(entry, 'sAMAccountName', 'None')
 
             result = f"""High Privilege Group: {adminCount}
 Group Name: {sAMAccountName}

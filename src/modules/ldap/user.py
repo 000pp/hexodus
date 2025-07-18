@@ -3,6 +3,7 @@ console = Console()
 from uuid import uuid4
 
 from parsers.formatters import fmt_multi, fmt_uac
+from protocols.ldap import safe_ldap_attr
 
 class User:
     name = "user"
@@ -41,16 +42,16 @@ class User:
 
         values = []
         for entry in conn.entries:
-            description = entry.description.value or "No description"
-            memberOf = fmt_multi(entry.memberOf.value)
-            objectSid = entry.objectSid.value or "None"
-            sAMAccountName = entry.sAMAccountName.value or "None"
-            accountExpires = entry.accountExpires.value or "None"
-            servicePrincipalName = entry.servicePrincipalName.value or "None"
-            badPwdCount = entry.badPwdCount.value
-            lastLogon = entry.lastLogon.value or "None"
-            lastLogoff = entry.lastLogoff.value or "None"
-            userAccountControl = fmt_uac(entry.userAccountControl.value) or entry.userAccountControl.value or "None"
+            description = safe_ldap_attr(entry, 'description', 'None')
+            memberOf = safe_ldap_attr(entry, fmt_multi('memberOf', 'None'))
+            objectSid = safe_ldap_attr(entry, 'objectSid', 'None')
+            sAMAccountName = safe_ldap_attr(entry, 'sAMAccountName', 'None')
+            accountExpires = safe_ldap_attr(entry, 'accountExpires', 'None')
+            servicePrincipalName = safe_ldap_attr(entry, 'servicePrincipalName', 'None')
+            badPwdCount = safe_ldap_attr(entry, 'badPwdCount', 'None')
+            lastLogon = safe_ldap_attr(entry, 'lastLogon', 'None')
+            lastLogoff = safe_ldap_attr(entry, 'lastLogoff', 'None')
+            userAccountControl = fmt_uac(safe_ldap_attr(entry, 'userAccountControl', 'None')) or safe_ldap_attr(entry, 'userAccountControl', 'None')
 
             result = f"""Username: {sAMAccountName}
 Description: {description}

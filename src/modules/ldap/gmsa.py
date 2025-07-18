@@ -3,6 +3,7 @@ console = Console()
 from uuid import uuid4
 
 from parsers.formatters import fmt_gmsa
+from protocols.ldap import safe_ldap_attr
 
 class Gmsa:
     name = "gmsa"
@@ -24,8 +25,8 @@ class Gmsa:
 
         values = []
         for entry in conn.entries:
-            sAMAccountName = entry.sAMAccountName.value
-            msDS_ManagedPassword = fmt_gmsa(entry['msDS-ManagedPassword'].value) or "None"
+            sAMAccountName = safe_ldap_attr(entry, 'sAMAccountName', 'None')
+            msDS_ManagedPassword = safe_ldap_attr(entry, fmt_gmsa('msDS-ManagedPassword'), 'None')
 
             result = f"Account: {sAMAccountName} - NT Hash: {msDS_ManagedPassword}"
             values.append(result)

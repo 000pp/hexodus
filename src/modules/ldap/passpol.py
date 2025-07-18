@@ -2,6 +2,8 @@ from rich.console import Console
 console = Console()
 from uuid import uuid4
 
+from protocols.ldap import safe_ldap_attr
+
 class Passpol:
     name = "passpol"
     desc = "Get the domain password policy"
@@ -22,11 +24,11 @@ class Passpol:
 
         values = []
         for entry in conn.entries:
-            lockoutDuration = entry.lockoutDuration.value or "None"
-            lockoutThreshold = f"{entry.lockoutThreshold.value} - Password Spray is possible!" if entry.lockoutThreshold.value == 0 else entry.lockoutThreshold.value or "None"
-            maxPwdAge = entry.maxPwdAge.value or "None"
-            minPwdAge = entry.minPwdAge.value or "None"
-            minPwdLength = entry.minPwdLength.value or "None"
+            lockoutDuration = safe_ldap_attr(entry, 'lockoutDuration', 'None')
+            lockoutThreshold = f"{safe_ldap_attr(entry, 'lockoutThreshold', 'None')} - Password Spray is possible!" if safe_ldap_attr(entry, 'lockoutThreshold', 'None') == 0 else safe_ldap_attr(entry, 'lockoutThreshold', 'None') or "None"
+            maxPwdAge = safe_ldap_attr(entry, 'maxPwdAge', 'None')
+            minPwdAge = safe_ldap_attr(entry, 'minPwdAge', 'None')
+            minPwdLength = safe_ldap_attr(entry, 'minPwdLength', 'None')
 
             result = f"""Lockout Duration: {lockoutDuration}
 Lockout Threshold: {lockoutThreshold}

@@ -3,6 +3,8 @@ console = Console()
 from uuid import uuid4
 from ldap3 import SUBTREE
 
+from protocols.ldap import safe_ldap_attr
+
 class Domainsid:
     name = "domainsid"
     desc = "Get SID value from Domain Controllers"
@@ -38,9 +40,9 @@ class Domainsid:
 
         values = []
         for entry in entries:
-            dNSHostName = entry.dNSHostName.value or "None"
-            objectSid = entry.objectSid.value or "None"
-            cn = entry.cn.value or "None"
+            dNSHostName = safe_ldap_attr(entry, 'dNSHostName', 'None')
+            objectSid = safe_ldap_attr(entry, 'objectSid', 'None')
+            cn = safe_ldap_attr(entry, 'cn', 'None')
 
             result = f"{dNSHostName} - {objectSid} - {cn}"
             console.print(result, highlight=False)

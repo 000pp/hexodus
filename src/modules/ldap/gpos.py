@@ -2,6 +2,8 @@ from rich.console import Console
 console = Console()
 from uuid import uuid4
 
+from protocols.ldap import safe_ldap_attr
+
 class Gpos:
     name = "gpos"
     desc = "List the GPOs registed in the domain"
@@ -22,8 +24,8 @@ class Gpos:
 
         values = []
         for entry in conn.entries:
-            displayName = entry.displayName.value or "None"
-            gPCFileSysPath = entry.gPCFileSysPath.value or "None"
+            displayName = safe_ldap_attr(entry, 'displayName', 'None')
+            gPCFileSysPath = safe_ldap_attr(entry, gPCFileSysPath, 'None')
 
             result = f"{displayName} - {gPCFileSysPath}"
             values.append(result)

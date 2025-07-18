@@ -2,6 +2,8 @@ from rich.console import Console
 console = Console()
 from uuid import uuid4
 
+from protocols.ldap import safe_ldap_attr
+
 class Search_computer:
     name = "search_computer"
     desc = "Get information from the group name specified"
@@ -27,7 +29,7 @@ class Search_computer:
 
         values = []
         for entry in conn.entries:
-            dNSHostName = entry.dNSHostName.value or "dNSHostName is blank"
+            dNSHostName = safe_ldap_attr(entry, 'dNSHostName', 'Blank')
             
             values.append(dNSHostName)
             console.print(dNSHostName, highlight=False)
