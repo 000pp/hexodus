@@ -2,7 +2,6 @@ from rich.console import Console
 console = Console()
 from uuid import uuid4
 
-from parsers.formatters import fmt_sid
 from protocols.ldap import safe_ldap_attr, safe_ldap_sid
 
 class Trusts:
@@ -74,7 +73,7 @@ SID: {securityIdentifier}
 Trust Direction: {trustDirection}
 Trust Type: {trustType}\n
 """
-    
+
             values.append(result)
             console.print(result, highlight=False)
 

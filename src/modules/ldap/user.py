@@ -24,7 +24,7 @@ class User:
 
     def on_login(self, conn, base_dn, save_output = False, module_args = None):
         if not module_args or len(module_args) == 0:
-            console.print("\n[[red]![/]] You need to specify a username. Example: hexodus <profile> ldap <host> user [yellow]Administrator[/]", highlight=False)
+            console.print("\n[[red]![/]] You need to specify an username. Example: hexodus <profile> ldap <host> user [yellow]Administrator[/]", highlight=False)
             return
 
         console.print(f"[[green]+[/]] [cyan]MODULE[/]  Running [yellow]{self.name}[/] module")

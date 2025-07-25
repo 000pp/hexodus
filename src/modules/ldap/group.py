@@ -38,7 +38,6 @@ class Group:
 
         values = []
         for entry in conn.entries:
-            adminCount = "Yes" if safe_ldap_attr(entry, 'adminCount', 'None') == "1" else 'None'
             description = safe_ldap_attr(entry, 'description', 'None')
             distinguishedName = safe_ldap_attr(entry, fmt_multi('distinguishedName'), 'None')
             members = safe_ldap_attr(entry, fmt_multi('member'), 'None')
@@ -46,10 +45,9 @@ class Group:
             objectSid = safe_ldap_attr(entry, 'objectSid', 'None')
             sAMAccountName = safe_ldap_attr(entry, 'sAMAccountName', 'None')
 
-            result = f"""High Privilege Group: {adminCount}
-Group Name: {sAMAccountName}
+            result = f"""Group Name: {sAMAccountName}
 Group Description: {description}
-DN: {distinguishedName}
+distinguishedName: {distinguishedName}
 Members: {members}
 Member of: {memberOf}
 SID: {objectSid}"""
